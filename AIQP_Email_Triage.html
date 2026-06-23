@@ -45,7 +45,7 @@
     flex-direction: column;
   }
 
-  /* ─── HEADER ─── */
+  /* ??? HEADER ??? */
   .header {
     background: var(--navy);
     color: white;
@@ -79,7 +79,7 @@
   .btn-accent { background: var(--accent); color: white; }
   .btn-accent:hover { background: var(--accent-hover); }
 
-  /* ─── LAYOUT ─── */
+  /* ??? LAYOUT ??? */
   .layout {
     display: grid;
     grid-template-columns: 220px 1fr 380px;
@@ -87,7 +87,7 @@
     overflow: hidden;
   }
 
-  /* ─── SIDEBAR ─── */
+  /* ??? SIDEBAR ??? */
   .sidebar {
     background: var(--navy-light);
     border-right: 1px solid rgba(255,255,255,0.06);
@@ -119,7 +119,7 @@
   }
   .folder-item.fi-new-count .fi-count { background: var(--accent); color: white; }
 
-  /* ─── EMAIL LIST ─── */
+  /* ??? EMAIL LIST ??? */
   .email-list {
     background: var(--white);
     border-right: 1px solid var(--border);
@@ -192,7 +192,7 @@
   .empty-state h3 { font-size: 15px; font-weight: 600; }
   .empty-state p { font-size: 12px; }
 
-  /* ─── DETAIL PANEL ─── */
+  /* ??? DETAIL PANEL ??? */
   .detail-panel {
     background: var(--white);
     overflow-y: auto;
@@ -314,7 +314,7 @@
   .btn-action.btn-file { background: var(--navy); color: white; border-color: var(--navy); }
   .btn-action.btn-file:hover { background: var(--navy-mid); }
 
-  /* ─── TOAST ─── */
+  /* ??? TOAST ??? */
   .toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 999; display: flex; flex-direction: column; gap: 8px; }
   .toast {
     background: var(--text); color: white; padding: 10px 16px;
@@ -326,7 +326,7 @@
   .toast.error { background: var(--red); }
   @keyframes slideIn { from { transform: translateX(20px); opacity: 0; } to { transform: none; opacity: 1; } }
 
-  /* ─── AUTH OVERLAY ─── */
+  /* ??? AUTH OVERLAY ??? */
   .auth-overlay {
     position: fixed; inset: 0; background: rgba(10,20,40,0.7);
     display: flex; align-items: center; justify-content: center; z-index: 500;
@@ -358,11 +358,11 @@
     border-radius: 6px; font-size: 11px; color: #92400e; line-height: 1.5;
   }
 
-  /* ─── SPINNER ─── */
+  /* ??? SPINNER ??? */
   .spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ─── LOADING LIST ─── */
+  /* ??? LOADING LIST ??? */
   .skeleton { background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%); background-size: 200% 100%; animation: shimmer 1.3s infinite; border-radius: 4px; }
   @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
   .skeleton-row { padding: 14px; border-bottom: 1px solid var(--surface2); }
@@ -492,7 +492,7 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-// ─── STATE ───────────────────────────────────────────────────────────────────
+// ??? STATE ???????????????????????????????????????????????????????????????????
 let state = {
   accessToken: null,
   clientId: null,
@@ -505,36 +505,36 @@ let state = {
   folderCounts: {}
 };
 
-// ─── DEMO DATA ────────────────────────────────────────────────────────────────
+// ??? DEMO DATA ????????????????????????????????????????????????????????????????
 const DEMO_EMAILS = [
   {
     id: 'demo1', isRead: false,
     from: { emailAddress: { name: 'Sarah Chen', address: 'schen@aucklandcouncil.govt.nz' } },
-    subject: 'BWoF Audit Response Required – 72 France St, Onehunga',
+    subject: 'BWoF Audit Response Required - 72 France St, Onehunga',
     receivedDateTime: new Date(Date.now() - 2*3600000).toISOString(),
     bodyPreview: 'Dear AIQP Team, Following our inspection on 15 June, we require a formal response to the identified deficiencies within 10 working days. Please refer to the attached audit report...',
-    body: { contentType: 'text', content: 'Dear AIQP Team,\n\nFollowing our inspection on 15 June 2026, we require a formal written response to the identified deficiencies within 10 working days.\n\nKey findings:\n1. Fire door at Level 2 stairwell – floor clearance gap exceeds 10mm (measured at 14mm)\n2. Access control panel not listed on current Compliance Schedule\n3. Emergency lighting discharge test records incomplete for FY2025\n\nPlease provide:\n• A remediation plan with target completion dates\n• Updated Form 12A for affected specified systems\n• Confirmation of IQP engagement for emergency lighting\n\nRegards,\nSarah Chen\nBuilding Compliance Team\nAuckland Council' }
+    body: { contentType: 'text', content: 'Dear AIQP Team,\n\nFollowing our inspection on 15 June 2026, we require a formal written response to the identified deficiencies within 10 working days.\n\nKey findings:\n1. Fire door at Level 2 stairwell - floor clearance gap exceeds 10mm (measured at 14mm)\n2. Access control panel not listed on current Compliance Schedule\n3. Emergency lighting discharge test records incomplete for FY2025\n\nPlease provide:\n* A remediation plan with target completion dates\n* Updated Form 12A for affected specified systems\n* Confirmation of IQP engagement for emergency lighting\n\nRegards,\nSarah Chen\nBuilding Compliance Team\nAuckland Council' }
   },
   {
     id: 'demo2', isRead: false,
     from: { emailAddress: { name: 'James Patel', address: 'jpatel@nexianz.com' } },
-    subject: 'B2B Fire Protection – FY2026 Financials (Draft)',
+    subject: 'B2B Fire Protection - FY2026 Financials (Draft)',
     receivedDateTime: new Date(Date.now() - 5*3600000).toISOString(),
     bodyPreview: 'Hi Mike, Please find attached the draft FY2026 financial statements for B2B Fire Protection Limited, prepared for the Cove Compliance due diligence process.',
-    body: { contentType: 'text', content: 'Hi Mike,\n\nPlease find attached the draft FY2026 financial statements for B2B Fire Protection Limited, prepared for the Cove Compliance due diligence process.\n\nKey figures:\n• Revenue: $1.24M (up 8% on FY2025)\n• EBITDA: $387K\n• Net profit after tax: $241K\n\nNote we have flagged the AIQP referral revenue as a risk item in the notes – Cove's lawyers may raise this during due diligence. Suggest we discuss before you send to them.\n\nLet me know if any adjustments needed.\n\nRegards,\nJames Patel\nNexia NZ' }
+    body: { contentType: 'text', content: 'Hi Mike,\n\nPlease find attached the draft FY2026 financial statements for B2B Fire Protection Limited, prepared for the Cove Compliance due diligence process.\n\nKey figures:\n* Revenue: $1.24M (up 8% on FY2025)\n* EBITDA: $387K\n* Net profit after tax: $241K\n\nNote we have flagged the AIQP referral revenue as a risk item in the notes. Suggest we discuss before you send to them.\n\nLet me know if any adjustments needed.\n\nRegards,\nJames Patel\nNexia NZ' }
   },
   {
     id: 'demo3', isRead: true,
     from: { emailAddress: { name: 'Tom Rawiri', address: 'tom@b2bfire.co.nz' } },
-    subject: 'Sprinkler Inspection – 155 Queen St – Outstanding Items',
+    subject: 'Sprinkler Inspection - 155 Queen St - Outstanding Items',
     receivedDateTime: new Date(Date.now() - 24*3600000).toISOString(),
     bodyPreview: 'Morning Mike, Just following up on the 155 Queen St job. We have three outstanding items from last month\'s sprinkler inspection that need sign-off before we can issue the Form 12A.',
-    body: { contentType: 'text', content: 'Morning Mike,\n\nJust following up on the 155 Queen St job. We have three outstanding items from last month\'s sprinkler inspection that need sign-off before we can issue the Form 12A:\n\n1. Zone 12A valve – pressure reading below threshold (need re-test)\n2. Contractor history documentation missing for 2023 service\n3. Head clearances in Level 3 storage area – shelving installed post-inspection\n\nCan you let me know how you want to handle item 3? Owner may need a PS3 if the shelving affects coverage.\n\nCheers\nTom' }
+    body: { contentType: 'text', content: 'Morning Mike,\n\nJust following up on the 155 Queen St job. We have three outstanding items from last month\'s sprinkler inspection that need sign-off before we can issue the Form 12A:\n\n1. Zone 12A valve - pressure reading below threshold (need re-test)\n2. Contractor history documentation missing for 2023 service\n3. Head clearances in Level 3 storage area - shelving installed post-inspection\n\nCan you let me know how you want to handle item 3? Owner may need a PS3 if the shelving affects coverage.\n\nCheers\nTom' }
   },
   {
     id: 'demo4', isRead: false,
     from: { emailAddress: { name: 'Belmont Lifestyle Village', address: 'manager@belmont-lifestyle.co.nz' } },
-    subject: 'RE: Access Control – Compliance Schedule Update Request',
+    subject: 'RE: Access Control - Compliance Schedule Update Request',
     receivedDateTime: new Date(Date.now() - 3*3600000).toISOString(),
     bodyPreview: 'Hi, Thank you for your letter dated 10 June. We have spoken with our access control contractor and they have confirmed the panel was installed in 2019. We were not aware it needed to be on the Compliance Schedule.',
     body: { contentType: 'text', content: 'Hi,\n\nThank you for your letter dated 10 June regarding the access control equipment at Belmont Lifestyle Village.\n\nWe have spoken with our access control contractor (SecureTech NZ) and they have confirmed the panel was installed in November 2019. We were not aware this needed to be listed on the Compliance Schedule as the previous building manager handled this.\n\nCould you please advise:\n1. What exactly needs to happen to get this onto the Schedule?\n2. Who pays for the PS1 assessment?\n3. Will this affect our BWoF renewal in August?\n\nKind regards,\nDave Simmons\nFacilities Manager\nBelmont Lifestyle Village' }
@@ -542,22 +542,22 @@ const DEMO_EMAILS = [
   {
     id: 'demo5', isRead: true,
     from: { emailAddress: { name: 'Cove Compliance Legal', address: 'legal@covecompliance.co.nz' } },
-    subject: 'NDA – B2B Fire Protection Acquisition – Execution Copy',
+    subject: 'NDA - B2B Fire Protection Acquisition - Execution Copy',
     receivedDateTime: new Date(Date.now() - 48*3600000).toISOString(),
     bodyPreview: 'Dear Mike, Please find attached the executed NDA for the proposed acquisition of B2B Fire Protection Limited by Cove Compliance Holdings Limited.',
-    body: { contentType: 'text', content: 'Dear Mike,\n\nPlease find attached the executed NDA for the proposed acquisition of B2B Fire Protection Limited by Cove Compliance Holdings Limited.\n\nBoth parties have now signed. Please retain a copy for your records.\n\nNext steps:\n• Due diligence information request to follow within 5 business days\n• Indicative timeline: DD complete by end of July 2026\n• Exclusivity period: 45 days from today\n\nPlease direct any queries to our M&A team.\n\nKind regards,\nCove Compliance Legal\nCove Compliance Holdings Limited' }
+    body: { contentType: 'text', content: 'Dear Mike,\n\nPlease find attached the executed NDA for the proposed acquisition of B2B Fire Protection Limited by Cove Compliance Holdings Limited.\n\nBoth parties have now signed. Please retain a copy for your records.\n\nNext steps:\n* Due diligence information request to follow within 5 business days\n* Indicative timeline: DD complete by end of July 2026\n* Exclusivity period: 45 days from today\n\nPlease direct any queries to our M&A team.\n\nKind regards,\nCove Compliance Legal\nCove Compliance Holdings Limited' }
   },
   {
     id: 'demo6', isRead: false,
     from: { emailAddress: { name: 'Property Manager', address: 'pm@cityproperties.co.nz' } },
-    subject: 'Annual BWoF Renewal – 12 properties – Invoice Query',
+    subject: 'Annual BWoF Renewal - 12 properties - Invoice Query',
     receivedDateTime: new Date(Date.now() - 1*3600000).toISOString(),
-    bodyPreview: 'Hi AIQP, We have received your invoices for the annual BWoF renewal inspections across our 12 properties. Invoice #1047 seems higher than last year – can you clarify?',
-    body: { contentType: 'text', content: 'Hi AIQP,\n\nWe have received your invoices for the annual BWoF renewal inspections across our 12 properties. Thank you for getting these out promptly.\n\nOne query: Invoice #1047 for 88 Symonds St seems significantly higher than last year ($2,850 vs $1,200). Could you please clarify what the additional charges relate to? Is this the emergency lighting discharge test we discussed?\n\nAlso – are we still on track for the August BWoF renewal date for the Grey Lynn properties?\n\nRegards\nKate Morrison\nCity Properties NZ' }
+    bodyPreview: 'Hi AIQP, We have received your invoices for the annual BWoF renewal inspections across our 12 properties. Invoice #1047 seems higher than last year - can you clarify?',
+    body: { contentType: 'text', content: 'Hi AIQP,\n\nWe have received your invoices for the annual BWoF renewal inspections across our 12 properties. Thank you for getting these out promptly.\n\nOne query: Invoice #1047 for 88 Symonds St seems significantly higher than last year ($2,850 vs $1,200). Could you please clarify what the additional charges relate to? Is this the emergency lighting discharge test we discussed?\n\nAlso - are we still on track for the August BWoF renewal date for the Grey Lynn properties?\n\nRegards\nKate Morrison\nCity Properties NZ' }
   }
 ];
 
-// ─── AUTH ─────────────────────────────────────────────────────────────────────
+// ??? AUTH ?????????????????????????????????????????????????????????????????????
 function showAuth() {
   document.getElementById('authOverlay').style.display = 'flex';
 }
@@ -572,7 +572,7 @@ function startAuth() {
     state.emails = DEMO_EMAILS;
     document.getElementById('authOverlay').style.display = 'none';
     renderEmailList();
-    showToast('Demo mode – sample emails loaded', 'success');
+    showToast('Demo mode - sample emails loaded', 'success');
     return;
   }
 
@@ -629,7 +629,7 @@ function checkAuthCallback() {
   if (savedTenant) document.getElementById('tenantId').value = savedTenant;
 }
 
-// ─── GRAPH API ───────────────────────────────────────────────────────────────
+// ??? GRAPH API ???????????????????????????????????????????????????????????????
 async function graphGet(endpoint) {
   const res = await fetch(`https://graph.microsoft.com/v1.0${endpoint}`, {
     headers: { 'Authorization': `Bearer ${state.accessToken}` }
@@ -681,7 +681,7 @@ async function moveEmail(emailId, folderName) {
     // Remove from list
     state.emails = state.emails.filter(e => e.id !== emailId);
     renderEmailList();
-    document.getElementById('detailPanel').innerHTML = `<div class="detail-empty"><div class="de-icon">✉️</div><h3>Email filed</h3><p>Select another email to continue.</p></div>`;
+    document.getElementById('detailPanel').innerHTML = `<div class="detail-empty"><div class="de-icon">??</div><h3>Email filed</h3><p>Select another email to continue.</p></div>`;
   } catch(e) {
     showToast('Failed to move email: ' + e.message, 'error');
   }
@@ -704,7 +704,7 @@ async function sendReply(email, body) {
   }
 }
 
-// ─── AI ───────────────────────────────────────────────────────────────────────
+// ??? AI ???????????????????????????????????????????????????????????????????????
 const SYSTEM_PROMPT = `You are an email assistant for Mike, Director of Auckland IQP (AIQP), a New Zealand building compliance firm operating under the Building Act 2004. AIQP conducts Building Warrant of Fitness (BWoF) inspections, issues compliance certifications, and manages audit workflows for ~300 Auckland properties. AIQP also has a referral/subcontracting relationship with B2B Fire Protection Limited.
 
 For each email, respond ONLY with a JSON object in this exact format:
@@ -756,7 +756,7 @@ ${email.body?.content || email.bodyPreview}`;
 async function triageAll() {
   const btn = document.getElementById('triageAllBtn');
   btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Analysing…';
+  btn.innerHTML = '<span class="spinner"></span> Analysing...';
 
   for (const email of state.emails) {
     if (!state.triageCache[email.id]) {
@@ -766,11 +766,11 @@ async function triageAll() {
 
   renderEmailList();
   btn.disabled = false;
-  btn.innerHTML = '✨ AI Triage All';
+  btn.innerHTML = '? AI Triage All';
   showToast('All emails analysed', 'success');
 }
 
-// ─── RENDER ───────────────────────────────────────────────────────────────────
+// ??? RENDER ???????????????????????????????????????????????????????????????????
 function showLoadingSkeleton() {
   const container = document.getElementById('emailItems');
   container.innerHTML = Array(6).fill('').map(() => `
@@ -785,7 +785,7 @@ function showLoadingSkeleton() {
 function renderEmailList() {
   const container = document.getElementById('emailItems');
   if (!state.emails.length) {
-    container.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><h3>No emails</h3><p>Your ${state.currentFolder} folder is empty.</p></div>`;
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">?</div><h3>No emails</h3><p>Your ${state.currentFolder} folder is empty.</p></div>`;
     document.getElementById('unreadBadge').textContent = '0 unread';
     document.getElementById('fc-inbox').textContent = '0';
     return;
@@ -801,7 +801,7 @@ function renderEmailList() {
     const priority = analysis?.priority || '';
     const tags = [];
     if (folder && folder !== 'Inbox') tags.push(`<span class="tag tag-${folderToClass(folder)}">${folder}</span>`);
-    if (priority === 'high') tags.push(`<span class="tag tag-urgent">⚡ Urgent</span>`);
+    if (priority === 'high') tags.push(`<span class="tag tag-urgent">? Urgent</span>`);
 
     return `
       <div class="email-item ${!email.isRead ? 'unread' : ''} ${state.selectedEmail?.id === email.id ? 'selected' : ''}" onclick="selectEmail('${email.id}')">
@@ -847,27 +847,27 @@ async function selectEmail(emailId) {
       </div>
     </div>
     <div class="detail-ai-box">
-      <div class="ai-box-header"><span class="sparkle">✨</span> AI Analysis <span id="aiStatus" style="margin-left:auto;font-weight:400;opacity:0.7">Analysing…</span></div>
+      <div class="ai-box-header"><span class="sparkle">?</span> AI Analysis <span id="aiStatus" style="margin-left:auto;font-weight:400;opacity:0.7">Analysing...</span></div>
       <div class="ai-box-body" id="aiBoxBody">
-        <div style="color:var(--text-muted);font-size:12px;display:flex;align-items:center;gap:8px"><span class="spinner" style="border-color:rgba(0,0,0,0.2);border-top-color:var(--accent)"></span> Generating analysis…</div>
+        <div style="color:var(--text-muted);font-size:12px;display:flex;align-items:center;gap:8px"><span class="spinner" style="border-color:rgba(0,0,0,0.2);border-top-color:var(--accent)"></span> Generating analysis...</div>
       </div>
     </div>
     <div class="detail-body">${(email.body?.content || email.bodyPreview).replace(/\n/g, '<br>')}</div>
     <div class="reply-area">
       <div class="reply-label">
         <span>Draft Reply</span>
-        <button class="btn-sm btn-accent" id="genReplyBtn" onclick="generateReply('${emailId}')" style="font-size:11px;padding:3px 9px">✨ Generate</button>
+        <button class="btn-sm btn-accent" id="genReplyBtn" onclick="generateReply('${emailId}')" style="font-size:11px;padding:3px 9px">? Generate</button>
       </div>
-      <textarea class="reply-textarea" id="replyText" placeholder="Type your reply here, or click Generate to draft with AI…"></textarea>
+      <textarea class="reply-textarea" id="replyText" placeholder="Type your reply here, or click Generate to draft with AI..."></textarea>
       <div class="reply-actions">
         <button class="btn-reply btn-reply-draft" onclick="saveDraft('${emailId}')">Save Draft</button>
-        <button class="btn-reply btn-reply-send" onclick="sendEmailReply('${emailId}')">Send Reply ↑</button>
+        <button class="btn-reply btn-reply-send" onclick="sendEmailReply('${emailId}')">Send Reply ?</button>
       </div>
     </div>
     <div class="detail-actions-bar">
-      <button class="btn-action" onclick="markRead('${emailId}')">✓ Mark Read</button>
-      <button class="btn-action" onclick="deleteEmail('${emailId}')">🗑 Delete</button>
-      <button class="btn-action btn-file" id="fileBtn" onclick="fileEmailToSuggested('${emailId}')">📁 File →</button>
+      <button class="btn-action" onclick="markRead('${emailId}')">? Mark Read</button>
+      <button class="btn-action" onclick="deleteEmail('${emailId}')">? Delete</button>
+      <button class="btn-action btn-file" id="fileBtn" onclick="fileEmailToSuggested('${emailId}')">? File ?</button>
     </div>
   `;
 
@@ -882,7 +882,7 @@ async function selectEmail(emailId) {
     // Update file button
     if (analysis.suggested_folder) {
       const fileBtn = document.getElementById('fileBtn');
-      if (fileBtn) fileBtn.textContent = `📁 File → ${analysis.suggested_folder}`;
+      if (fileBtn) fileBtn.textContent = `? File ? ${analysis.suggested_folder}`;
     }
     renderEmailList(); // refresh tags
   } catch(e) {
@@ -892,14 +892,14 @@ async function selectEmail(emailId) {
 
 function renderAiBox(analysis, emailId) {
   const priorityClass = { high: 'priority-high', medium: 'priority-medium', low: 'priority-low' }[analysis.priority] || 'priority-low';
-  const priorityLabel = { high: '⚡ High', medium: '⬥ Medium', low: '↓ Low' }[analysis.priority] || 'Low';
+  const priorityLabel = { high: '? High', medium: '? Medium', low: '? Low' }[analysis.priority] || 'Low';
 
   const actions = (analysis.key_actions || []).map(a => `<li style="margin-left:14px;margin-bottom:3px">${a}</li>`).join('');
 
   document.getElementById('aiBoxBody').innerHTML = `
     <div class="ai-section">
       <div class="ai-section-label">Summary</div>
-      <div class="ai-section-content">${analysis.summary || '—'}</div>
+      <div class="ai-section-content">${analysis.summary || '-'}</div>
     </div>
     <div class="ai-section" style="display:flex;gap:16px;align-items:flex-start">
       <div>
@@ -910,7 +910,7 @@ function renderAiBox(analysis, emailId) {
       <div style="flex:1">
         <div class="ai-section-label">Suggested Folder</div>
         <div class="ai-folder-suggestion" onclick="fileEmailToFolder('${emailId}', '${analysis.suggested_folder}')">
-          📁 ${analysis.suggested_folder} ↗
+          ? ${analysis.suggested_folder} ?
         </div>
         <div style="font-size:11px;color:var(--text-muted);margin-top:4px">${analysis.folder_reason || ''}</div>
       </div>
@@ -924,7 +924,7 @@ async function generateReply(emailId) {
   const email = state.emails.find(e => e.id === emailId);
   if (!email) return;
   const btn = document.getElementById('genReplyBtn');
-  btn.disabled = true; btn.textContent = '…';
+  btn.disabled = true; btn.textContent = '...';
   try {
     const analysis = await analyseEmail(email);
     if (analysis.suggested_reply) {
@@ -933,7 +933,7 @@ async function generateReply(emailId) {
   } catch(e) {
     showToast('Failed to generate reply', 'error');
   }
-  btn.disabled = false; btn.textContent = '✨ Generate';
+  btn.disabled = false; btn.textContent = '? Generate';
 }
 
 function selectFolder(folder) {
@@ -965,7 +965,7 @@ function markRead(emailId) {
 function deleteEmail(emailId) {
   state.emails = state.emails.filter(e => e.id !== emailId);
   renderEmailList();
-  document.getElementById('detailPanel').innerHTML = `<div class="detail-empty"><div class="de-icon">🗑</div><h3>Email deleted</h3><p>Select another email to continue.</p></div>`;
+  document.getElementById('detailPanel').innerHTML = `<div class="detail-empty"><div class="de-icon">?</div><h3>Email deleted</h3><p>Select another email to continue.</p></div>`;
   showToast('Email deleted', 'success');
 }
 
@@ -990,17 +990,17 @@ async function sendEmailReply(emailId) {
   await sendReply(email, body);
 }
 
-// ─── TOAST ────────────────────────────────────────────────────────────────────
+// ??? TOAST ????????????????????????????????????????????????????????????????????
 function showToast(msg, type = '') {
   const c = document.getElementById('toastContainer');
   const t = document.createElement('div');
   t.className = `toast ${type}`;
-  t.innerHTML = (type === 'success' ? '✓ ' : type === 'error' ? '✕ ' : 'ℹ ') + msg;
+  t.innerHTML = (type === 'success' ? '? ' : type === 'error' ? '? ' : '? ') + msg;
   c.appendChild(t);
   setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; setTimeout(() => t.remove(), 300); }, 3000);
 }
 
-// ─── INIT ─────────────────────────────────────────────────────────────────────
+// ??? INIT ?????????????????????????????????????????????????????????????????????
 checkAuthCallback();
 </script>
 </body>
