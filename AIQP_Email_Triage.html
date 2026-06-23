@@ -583,7 +583,7 @@ function startAuth() {
   localStorage.setItem('msClientId', clientId);
   localStorage.setItem('msTenantId', tenantId);
 
-  const redirectUri = window.location.origin + window.location.pathname;
+  const redirectUri = 'https://mikegghalpin.github.io/aiqp-email-triage/AIQP_Email_Triage.html';
   const scope = 'Mail.Read Mail.Send Mail.ReadWrite openid profile';
   const nonce = Math.random().toString(36).substring(2);
   localStorage.setItem('msNonce', nonce);
