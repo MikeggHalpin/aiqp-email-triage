@@ -193,23 +193,27 @@
   .empty-state p { font-size: 12px; }
 
   /* ??? DETAIL PANEL ??? */
-  .detail-panel {
-    background: var(--white);
-    overflow: hidden;
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-  }
+  /* detail-panel defined below */
   .detail-top {
     overflow-y: auto;
     border-bottom: 2px solid var(--accent);
     display: flex;
     flex-direction: column;
+    min-height: 0;
   }
   .detail-bottom {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     background: var(--surface);
+    min-height: 0;
+  }
+  .detail-panel {
+    background: var(--white);
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    min-height: 0;
   }
   .detail-empty {
     flex: 1; display: flex; flex-direction: column;
