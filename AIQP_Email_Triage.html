@@ -82,7 +82,7 @@
   /* ??? LAYOUT ??? */
   .layout {
     display: grid;
-    grid-template-columns: 220px 1fr 380px;
+    grid-template-columns: 200px 1fr 480px;
     flex: 1;
     overflow: hidden;
   }
@@ -403,6 +403,34 @@
   </div>
 </div>
 
+
+<!-- SETTINGS MODAL -->
+<div id="settingsModal" style="display:none;position:fixed;inset:0;background:rgba(10,20,40,0.7);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(3px)">
+  <div style="background:white;border-radius:12px;padding:28px;width:420px;box-shadow:0 20px 50px rgba(0,0,0,0.3)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <h2 style="font-size:17px;font-weight:700">Settings</h2>
+      <button onclick="closeSettings()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#666">&times;</button>
+    </div>
+    <div class="auth-input-group">
+      <label>Claude API Key</label>
+      <input type="password" class="auth-input" id="settingsApiKey" placeholder="sk-ant-...">
+      <div class="auth-help">From <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></div>
+    </div>
+    <div class="auth-input-group" style="margin-top:12px">
+      <label>Microsoft Client ID</label>
+      <input type="text" class="auth-input" id="settingsClientId" readonly style="background:#f5f7fa;color:#666">
+    </div>
+    <div class="auth-input-group" style="margin-top:12px">
+      <label>Connected Account</label>
+      <div id="settingsAccount" style="font-size:13px;color:#1a2b45;padding:8px 0"></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button onclick="saveSettings()" style="flex:1;padding:10px;background:#3b7dd8;color:white;border:none;border-radius:7px;font-size:14px;font-weight:700;cursor:pointer">Save</button>
+      <button onclick="signOut()" style="padding:10px 16px;background:#fee2e2;color:#dc2626;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer">Sign Out</button>
+    </div>
+  </div>
+</div>
+
 <!-- HEADER -->
 <div class="header">
   <div class="header-brand">
@@ -414,7 +442,7 @@
   <div class="header-right">
     <span class="badge-count" id="unreadBadge">0 unread</span>
     <button class="btn-sm btn-outline" onclick="refreshEmails()">↻ Refresh</button>
-    <button class="btn-sm btn-outline" onclick="showAuthSettings()">⚙ Settings</button>
+    <button class="btn-sm btn-outline" onclick="openSettings()">⚙ Settings</button>
   </div>
 </div>
 
@@ -569,13 +597,46 @@ function showAuth() {
 }
 function showAuthSettings() {
   document.getElementById('authOverlay').style.display = 'flex';
-  // Pre-fill saved values
   const savedKey = localStorage.getItem('claudeApiKey');
   const savedId = localStorage.getItem('msClientId');
   const savedTenant = localStorage.getItem('msTenantId');
   if (savedKey) document.getElementById('claudeApiKey').value = savedKey;
   if (savedId) document.getElementById('clientId').value = savedId;
   if (savedTenant) document.getElementById('tenantId').value = savedTenant;
+}
+
+function openSettings() {
+  const modal = document.getElementById('settingsModal');
+  modal.style.display = 'flex';
+  const savedKey = localStorage.getItem('claudeApiKey');
+  const savedId = localStorage.getItem('msClientId');
+  if (savedKey) document.getElementById('settingsApiKey').value = savedKey;
+  if (savedId) document.getElementById('settingsClientId').value = savedId;
+  document.getElementById('settingsAccount').textContent = state.accessToken ? 'Connected to Microsoft 365' : 'Not connected';
+}
+
+function closeSettings() {
+  document.getElementById('settingsModal').style.display = 'none';
+}
+
+function saveSettings() {
+  const key = document.getElementById('settingsApiKey').value.trim();
+  if (key) {
+    state.claudeApiKey = key;
+    localStorage.setItem('claudeApiKey', key);
+  }
+  closeSettings();
+  showToast('Settings saved', 'success');
+}
+
+function signOut() {
+  state.accessToken = null;
+  state.emails = [];
+  localStorage.removeItem('msClientId');
+  localStorage.removeItem('msTenantId');
+  closeSettings();
+  document.getElementById('authOverlay').style.display = 'flex';
+  showToast('Signed out', 'success');
 }
 
 function startAuth() {
