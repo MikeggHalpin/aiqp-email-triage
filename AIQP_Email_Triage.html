@@ -82,7 +82,7 @@
   /* ??? LAYOUT ??? */
   .layout {
     display: grid;
-    grid-template-columns: 200px 1fr 480px;
+    grid-template-columns: 200px 1fr 1fr;
     flex: 1;
     overflow: hidden;
   }
@@ -195,9 +195,21 @@
   /* ??? DETAIL PANEL ??? */
   .detail-panel {
     background: var(--white);
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+  }
+  .detail-top {
+    overflow-y: auto;
+    border-bottom: 2px solid var(--accent);
+    display: flex;
+    flex-direction: column;
+  }
+  .detail-bottom {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    background: var(--surface);
   }
   .detail-empty {
     flex: 1; display: flex; flex-direction: column;
@@ -513,10 +525,19 @@
 
   <!-- DETAIL PANEL -->
   <div class="detail-panel" id="detailPanel">
-    <div class="detail-empty">
-      <div class="de-icon">✉️</div>
-      <h3>Select an email</h3>
-      <p>Click an email to read it and get AI analysis, suggested replies, and filing recommendations.</p>
+    <div class="detail-top">
+      <div class="detail-empty">
+        <div class="de-icon">✉️</div>
+        <h3>Select an email</h3>
+        <p>Click an email to read it.</p>
+      </div>
+    </div>
+    <div class="detail-bottom">
+      <div class="detail-empty">
+        <div class="de-icon">✨</div>
+        <h3>AI Analysis</h3>
+        <p>Select an email to get AI summary, priority, filing suggestion and draft reply.</p>
+      </div>
     </div>
   </div>
 </div>
@@ -1024,23 +1045,54 @@ async function generateReply(emailId) {
   btn.disabled = false; btn.textContent = '? Generate';
 }
 
-function selectFolder(folder) {
+async function selectFolder(folder) {
   state.currentFolder = folder;
   document.querySelectorAll('.folder-item').forEach(el => el.classList.remove('active'));
   event.currentTarget.classList.add('active');
   document.getElementById('listTitle').textContent = folder;
+  
+  if (state.demoMode) {
+    state.emails = DEMO_EMAILS.filter(e => folder === 'Inbox' || state.triageCache[e.id]?.suggested_folder === folder);
+    renderEmailList();
+    return;
+  }
+  
+  if (!state.accessToken) return;
+  
   if (folder === 'Inbox') {
-    state.emails = state.demoMode ? DEMO_EMAILS : [];
-    if (!state.demoMode && state.accessToken) fetchEmails();
-    else renderEmailList();
-  } else {
-    // In real mode, fetch folder emails; in demo, show empty
-    if (state.demoMode) {
-      const filed = state.emails.filter(e => state.triageCache[e.id]?.suggested_folder === folder);
-      state.emails = filed;
-      renderEmailList();
-      state.emails = DEMO_EMAILS; // restore
+    fetchEmails();
+    return;
+  }
+  
+  // Map folder name to Graph API well-known names
+  const wellKnown = {
+    'Sent Items': 'sentitems',
+    'Drafts': 'drafts',
+    'Deleted Items': 'deleteditems'
+  };
+  
+  showLoadingSkeleton();
+  try {
+    let folderId;
+    if (wellKnown[folder]) {
+      folderId = wellKnown[folder];
+    } else {
+      // Search for custom folder
+      const foldersRes = await graphGet('/me/mailFolders?$top=50');
+      const found = foldersRes.value.find(f => f.displayName.toLowerCase() === folder.toLowerCase());
+      if (!found) {
+        state.emails = [];
+        renderEmailList();
+        showToast(`Folder "${folder}" not found in Outlook yet - file emails there first`, '');
+        return;
+      }
+      folderId = found.id;
     }
+    const data = await graphGet(`/me/mailFolders/${folderId}/messages?$top=30&$orderby=receivedDateTime desc&$select=id,subject,from,receivedDateTime,isRead,bodyPreview,body`);
+    state.emails = data.value || [];
+    renderEmailList();
+  } catch(e) {
+    showToast('Failed to load folder: ' + e.message, 'error');
   }
 }
 
@@ -1067,8 +1119,41 @@ async function fileEmailToFolder(emailId, folderName) {
   await moveEmail(emailId, folderName);
 }
 
-function saveDraft(emailId) {
-  showToast('Draft saved (demo)', 'success');
+async function saveDraft(emailId) {
+  const email = state.emails.find(e => e.id === emailId);
+  const body = document.getElementById('replyText')?.value?.trim();
+  if (!body) { showToast('Reply is empty', 'error'); return; }
+  
+  if (state.demoMode) { showToast('Draft saved (demo)', 'success'); return; }
+  
+  try {
+    // Create a draft reply in Outlook
+    const res = await fetch(`https://graph.microsoft.com/v1.0/me/messages/${emailId}/createReply`, {
+      method: 'POST',
+      headers: { 
+        'Authorization': `Bearer ${state.accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({})
+    });
+    if (!res.ok) throw new Error('Could not create draft');
+    const draft = await res.json();
+    
+    // Update the draft body
+    await fetch(`https://graph.microsoft.com/v1.0/me/messages/${draft.id}`, {
+      method: 'PATCH',
+      headers: { 
+        'Authorization': `Bearer ${state.accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        body: { contentType: 'text', content: body }
+      })
+    });
+    showToast('Draft saved to Outlook Drafts folder', 'success');
+  } catch(e) {
+    showToast('Failed to save draft: ' + e.message, 'error');
+  }
 }
 
 async function sendEmailReply(emailId) {
